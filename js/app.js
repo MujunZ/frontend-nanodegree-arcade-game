@@ -9,7 +9,7 @@ var Enemy = function() {
     this.sprite = 'images/Piske&Usagi.png';
     this.x = Math.floor(Math.random()*50)*(-100);
     this.y = Math.floor(Math.random()*3)*90+50;
-    this.speed = 2;
+    this.speed = 150;
 };
 
 // Update the enemy's position, required method for game
@@ -19,17 +19,12 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-   this.x += dt*100;
+   this.x += dt*this.speed;
    if (this.x > 500) {
        this.x = Math.floor(Math.random()*50)*(-100);
    }
    newEnemy(Resources.get(this.sprite),this.x,this.y);
 };
-
-//?????
-// allEnemies.update = function(dt){
-//     newEnemy();
-// }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -90,12 +85,32 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
+function checkCollisions () {
+    var playerLeft = player.x;
+    var playerRight = player.x + 101;
+    var playerTop = player.y;
+    var playerBtm = player.y + 171;
+    for (var i = 0; i < 29; i++) {
+        var enemyLeft = allEnemies[i].x;
+        var enemyRight = allEnemies[i].x + 101;
+        var enemyTop = allEnemies[i].y;
+        var enemyBtm = allEnemies[i].y + 171;
+        if (
+                (playerLeft < enemyRight && playerTop > enemyBtm) ||
+                (playerRight > enemyLeft && playerTop > enemyBtm) ||
+                (playerLeft < enemyRight && playerBtm < enemyTop) ||
+                (playerRight > enemyLeft && playerBtm < enemyTop)
+            ) {
+            player = new Player();
+        }
+    }
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-//var allEnemies = [new Enemy, new Enemy, new Enemy];
 var player = new Player;
-var allEnemies = [new Enemy, new Enemy];
+var allEnemies = [new Enemy];
 
 
 // This listens for key presses and sends the keys to your
