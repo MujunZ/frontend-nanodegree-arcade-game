@@ -25,9 +25,21 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 505;
-    canvas.height = 606;
-    doc.body.appendChild(canvas);
+        canvas.id = "canvas";
+        canvas.width = 505;
+        canvas.height = 606;
+        canvas.style = "position: absolute; left: 0; top: 0; z-index: 0;"
+        doc.body.appendChild(canvas);
+
+        //Create another canvas layer
+        var canvas2 = doc.createElement('canvas');
+        var  ctx2 = canvas2.getContext('2d');
+
+        // canvas2.id="canvas2";
+        // canvas2.width = 505;
+        // canvas2.height = 606;
+        // canvas2.style = "position: absolute; left: 0; top: 300; z-index: 1;"
+        // doc.body.appendChild(canvas2);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.

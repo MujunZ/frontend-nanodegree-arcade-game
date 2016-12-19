@@ -84,10 +84,6 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
-// Player.prototype.reset = function () {
-//     this = new Player
-// };
-
 function checkCollisions () {
     var playerLeft = player.x + 20;
     var playerRight = player.x + 80;
@@ -105,6 +101,7 @@ function checkCollisions () {
                 ((playerRight > enemyRight) && (playerRight < enemyLeft) && (playerTop < enemyBtm) && (playerTop > enemyTop)) ||
                 ((playerRight > enemyRight) && (playerRight < enemyLeft) && (playerBtm > enemyBtm) && (playerBtm < enemyTop))
             ) {
+            gameOver();
             player = new Player();
         }
     }
@@ -116,6 +113,19 @@ function checkCollisions () {
 var player = new Player;
 var allEnemies = [new Enemy];
 
+//Show msg
+function gameOver () {
+        var canvas2 = document.querySelector('#canvas2');
+        var  ctx2 = canvas2.getContext('2d');
+
+        ctx2.font = "30px impact";
+        ctx2.stokeStyle = "black";
+        ctx2.textAlign = "center";
+        ctx2.lineWidth = 5;
+        ctx2.fillStyle = "white";
+        ctx2.strokeText("Game Over",canvas2.width/2,30);
+        ctx2.fillText("Game Over",canvas2.width/2,30);
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
