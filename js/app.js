@@ -88,30 +88,27 @@ Player.prototype.handleInput = function(key) {
 //     this = new Player
 // };
 
-// function checkCollisions () {
-//     var playerLeft = player.x + 20;
-//     var playerRight = player.x + 80;
-//     var playerTop = player.y + 20;
-//     var playerBtm = player.y + 80;
-//     var len = allEnemies.length;
-//     for (var i = 0; i < len; i++) {
-//         var enemyLeft = allEnemies[i].x;
-//         var enemyRight = allEnemies[i].x + 101;
-//         var enemyTop = allEnemies[i].y;
-//         var enemyBtm = allEnemies[i].y + 100;
-//         if (
-//                 ((playerLeft < enemyRight) && (playerLeft > enemyLeft) && (playerTop < enemyBtm) && (playerTop > enemyTop)) //||
-//                 //((playerLeft < enemyRight) && (playerTop < enemyBtm)) ||
-//                 // ((playerRight > enemyLeft) && (playerTop < enemyBtm)) ||
-//                 // ((playerLeft < enemyRight) && (playerBtm > enemyTop) && (playerBtm < enemyBtm)) //||
-//                 // ((playerRight > enemyLeft) && (playerBtm > enemyTop))
-//             ) {
-//             console.log(playerBtm);
-//             console.log(enemyTop);
-//             //player = new Player();
-//         }
-//     }
-// }
+function checkCollisions () {
+    var playerLeft = player.x + 20;
+    var playerRight = player.x + 80;
+    var playerTop = player.y + 20;
+    var playerBtm = player.y + 80;
+    var len = allEnemies.length;
+    for (var i = 0; i < len; i++) {
+        var enemyLeft = allEnemies[i].x;
+        var enemyRight = allEnemies[i].x + 101;
+        var enemyTop = allEnemies[i].y;
+        var enemyBtm = allEnemies[i].y + 100;
+        if (
+                ((playerLeft < enemyRight) && (playerLeft > enemyLeft) && (playerTop < enemyBtm) && (playerTop > enemyTop)) ||
+                ((playerLeft < enemyRight) && (playerLeft > enemyLeft) && (playerBtm > enemyBtm) && (playerBtm < enemyTop)) ||
+                ((playerRight > enemyRight) && (playerRight < enemyLeft) && (playerTop < enemyBtm) && (playerTop > enemyTop)) ||
+                ((playerRight > enemyRight) && (playerRight < enemyLeft) && (playerBtm > enemyBtm) && (playerBtm < enemyTop))
+            ) {
+            player = new Player();
+        }
+    }
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
