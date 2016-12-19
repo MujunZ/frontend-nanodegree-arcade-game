@@ -57,7 +57,7 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(key) {
-    console.log(key);
+    //console.log(key);
     switch (key) {
         case "right":
             if (this.x < 350) {
@@ -79,11 +79,15 @@ Player.prototype.handleInput = function(key) {
                 this.y += 90;
             }
             break;
+        case "enter": //This is a temporary solution, which let the game reset anytime
+            //console.log("good");
+            newGame();
         default:
             console.log("no movement");
     }
 };
 
+var collisionCount = 0;
 function checkCollisions () {
     var playerLeft = player.x + 20;
     var playerRight = player.x + 80;
@@ -101,8 +105,16 @@ function checkCollisions () {
                 ((playerRight > enemyRight) && (playerRight < enemyLeft) && (playerTop < enemyBtm) && (playerTop > enemyTop)) ||
                 ((playerRight > enemyRight) && (playerRight < enemyLeft) && (playerBtm > enemyBtm) && (playerBtm < enemyTop))
             ) {
-            gameOver();
-            player = new Player();
+            collisionCount++;
+            console.log(collisionCount);
+            if (collisionCount < 3) {
+                player = new Player();
+            };
+            if (collisionCount === 3) {
+                player = new Player();
+                gameOver();
+                collisionCount = 0;
+            }
         }
     }
 }
@@ -113,29 +125,55 @@ function checkCollisions () {
 var player = new Player;
 var allEnemies = [new Enemy];
 
-//Show msg
+//Show Game Over msg
 function gameOver () {
-        var canvas2 = document.querySelector('#canvas2');
+        var canvas2 = document.querySelector('#canvas2'); //canvas2 created in engine.js but canvas need to be redefined
         var  ctx2 = canvas2.getContext('2d');
 
-        ctx2.font = "30px impact";
+        ctx2.font = "50px impact";
         ctx2.stokeStyle = "black";
         ctx2.textAlign = "center";
         ctx2.lineWidth = 5;
         ctx2.fillStyle = "white";
-        ctx2.strokeText("Game Over",canvas2.width/2,30);
-        ctx2.fillText("Game Over",canvas2.width/2,30);
+        ctx2.strokeText("Game Over",canvas2.width/2,canvas2.height/2);
+        ctx2.fillText("Game Over",canvas2.width/2,canvas2.height/2);
+        ctx2.font = "20px impact";
+        ctx2.fillStyle = "black";
+        ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60);
+
+        //newGame();
+        
+}
+
+function newGame () {
+    var canvas2 = document.querySelector('#canvas2');
+    var  ctx2 = canvas2.getContext('2d');
+
+    ctx2.clearRect(0,0,canvas2.width,canvas2.height);
 }
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
+var keyUp
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        13: 'enter'
     };
 
+    keyUp = allowedKeys[e.keyCode];
+
     player.handleInput(allowedKeys[e.keyCode]);
+
+    // if (allowedKeys[e.keyCode] == 'left'; || 
+    //     allowedKeys[e.keyCode] == 'up';|| 
+    //     allowedKeys[e.keyCode] == 'right';|| 
+    //     allowedKeys[e.keyCode] == 'down';) {
+    //     player.handleInput(allowedKeys[e.keyCode]);
+    // } else if (allowedKeys[e.keyCode] === 'enter' ){
+    //     var keyUp = allowedKeys[e.keyCode];
+    // }
 });
