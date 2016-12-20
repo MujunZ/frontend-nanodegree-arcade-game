@@ -1,4 +1,8 @@
 // Enemies our player must avoid
+/**
+* @description Enemy picture, location, speed
+* @constructor
+*/
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -8,12 +12,16 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = Math.floor(Math.random()*50)*(-100);
     this.y = Math.floor(Math.random()*3)*90+50;
-    this.speed = 150;
+    this.speed = 150; //TODO: need a better algorithm
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
-
+/**
+* @description Enemy update to a new position
+* @constructor
+* @param {number} dt - time between now and lasttime
+*/
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -26,11 +34,19 @@ Enemy.prototype.update = function(dt) {
 };
 
 // Draw the enemy on the screen, required method for game
+/**
+* @description Enemy render
+* @constructor
+*/
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 //push a new enemy in the Arrey
+/**
+* @description create a new enemy
+* @constructor
+*/
 function newEnemy () {
     var enemy = new Enemy
     if (allEnemies.length < 29) {
@@ -42,6 +58,10 @@ function newEnemy () {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+/**
+* @description Player picture, location
+* @constructor
+*/
 var Player = function () {
     this.sprite = "images/char-boy.png";
     this.x = 200;
@@ -52,12 +72,20 @@ Player.prototype.update = function(dt) {
     
 };
 
+/**
+* @description Player render
+* @constructor
+*/
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/**
+* @description move the Player
+* @constructor
+* @param {string}key - the key pressed on the key board
+*/
 Player.prototype.handleInput = function(key) {
-    //console.log(key);
     switch (key) {
         case "right":
             if (this.x < 350) {
@@ -79,14 +107,17 @@ Player.prototype.handleInput = function(key) {
                 this.y += 90;
             }
             break;
-        case "enter": //This is a temporary solution, which let the game reset anytime
-            //console.log("good");
+        case "enter": //TODO: This is a temporary solution, which let the game reset anytime
             newGame();
         default:
             console.log("no movement");
     }
 };
 
+/**
+* @description count the collision number
+* @constructor
+*/
 var collisionCount = 0;
 function checkCollisions () {
     var playerLeft = player.x + 20;
@@ -122,10 +153,17 @@ function checkCollisions () {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+/**
+* @description Enemy
+* @constructor
+*/
 var player = new Player;
 var allEnemies = [new Enemy];
 
-//Show Game Over msg
+/**
+* @description Show Game Over msg
+* @constructor
+*/
 function gameOver () {
         var canvas2 = document.querySelector('#canvas2'); //canvas2 created in engine.js but canvas need to be redefined
         var  ctx2 = canvas2.getContext('2d');
@@ -145,6 +183,10 @@ function gameOver () {
         
 }
 
+/**
+* @description new game start, clean the canvas
+* @constructor
+*/
 function newGame () {
     var canvas2 = document.querySelector('#canvas2');
     var  ctx2 = canvas2.getContext('2d');
@@ -154,6 +196,12 @@ function newGame () {
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
+/**
+* @description key board event
+* @constructor
+* @param {event}keyup - key up
+* @param {function}function(e) - key board event anonymous function
+*/
 var keyUp
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
