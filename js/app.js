@@ -10,9 +10,9 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    this.x = Math.floor(Math.random()*50)*(-100);
+    this.x = Math.floor(Math.random()*10+1)*(-50);
     this.y = Math.floor(Math.random()*3)*90+50;
-    this.speed = 150; //TODO: need a better algorithm
+    this.speed = Math.floor(Math.random()*3+1)*100; //TODO: need a better algorithm
 };
 
 // Update the enemy's position, required method for game
@@ -28,7 +28,8 @@ Enemy.prototype.update = function(dt) {
     // all computers.
    this.x += dt*this.speed;
    if (this.x > 500) {
-       this.x = Math.floor(Math.random()*50)*(-100);
+       this.x = this.x - 600;
+       this.y = Math.floor(Math.random()*3)*90+50;
    }
    newEnemy(Resources.get(this.sprite),this.x,this.y);
 };
@@ -49,7 +50,7 @@ Enemy.prototype.render = function() {
 */
 function newEnemy () {
     var enemy = new Enemy
-    if (allEnemies.length < 29) {
+    if (allEnemies.length < 8) {
        allEnemies.push(enemy);
     }
 }
@@ -86,31 +87,61 @@ Player.prototype.render = function() {
 * @param {string}key - the key pressed on the key board
 */
 Player.prototype.handleInput = function(key) {
-    switch (key) {
-        case "right":
-            if (this.x < 350) {
-                this.x += 100;
+    if (this.y > (-50)) { //disable keyup when the player arrives
+            switch (key) {
+            case "right":
+                if (this.x < 350) {
+                    this.x += 100;
+                }
+                break;
+            case "left":
+                if (this.x > 50){
+                    this.x -= 100;
+                }
+                break;
+            case "up":
+                if (this.y > 0){
+                    this.y -= 90;
+                }
+                break;
+            case "down":
+                if (this.y < 400){
+                    this.y += 90;
+                }
+                break;
+            case "enter": //TODO: This is a temporary solution, which let the game reset anytime
+                newGame();
+            default:
+                console.log("no movement");
             }
-            break;
-        case "left":
-            if (this.x > 50){
-                this.x -= 100;
-            }
-            break;
-        case "up":
-            if (this.y > 0){
-                this.y -= 90;
-            }
-            break;
-        case "down":
-            if (this.y < 400){
-                this.y += 90;
-            }
-            break;
-        case "enter": //TODO: This is a temporary solution, which let the game reset anytime
+        }    
+};
+
+/**
+* @description winning msg
+* @constructor
+*/
+Player.prototype.checkWin = function() {
+    if (this.y < 0) {
+        //winning msg
+        var canvas2 = document.querySelector('#canvas2'); //canvas2 created in engine.js but canvas need to be redefined
+        var  ctx2 = canvas2.getContext('2d');
+
+        ctx2.font = "50px impact";
+        ctx2.stokeStyle = "black";
+        ctx2.textAlign = "center";
+        ctx2.lineWidth = 5;
+        ctx2.fillStyle = "white";
+        ctx2.strokeText("Win!!!",canvas2.width/2,canvas2.height/2);
+        ctx2.fillText("Win!!!",canvas2.width/2,canvas2.height/2);
+        ctx2.font = "20px impact";
+        ctx2.fillStyle = "black";
+        ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60);
+        //reset the player
+        if (keyUp === 'enter') {
             newGame();
-        default:
-            console.log("no movement");
+            player = new Player;
+        }
     }
 };
 
@@ -177,10 +208,8 @@ function gameOver () {
         ctx2.fillText("Game Over",canvas2.width/2,canvas2.height/2);
         ctx2.font = "20px impact";
         ctx2.fillStyle = "black";
-        ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60);
+        ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60); 
 
-        //newGame();
-        
 }
 
 /**
@@ -215,6 +244,8 @@ document.addEventListener('keyup', function(e) {
     keyUp = allowedKeys[e.keyCode];
 
     player.handleInput(allowedKeys[e.keyCode]);
+
+
 
     // if (allowedKeys[e.keyCode] == 'left'; || 
     //     allowedKeys[e.keyCode] == 'up';|| 
