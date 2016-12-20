@@ -121,27 +121,32 @@ Player.prototype.handleInput = function(key) {
 * @description winning msg
 * @constructor
 */
+var winCount = 0;
 Player.prototype.checkWin = function() {
-    if (this.y < 0) {
-        //winning msg
-        var canvas2 = document.querySelector('#canvas2'); //canvas2 created in engine.js but canvas need to be redefined
-        var  ctx2 = canvas2.getContext('2d');
+    if (winCount <= 1 && this.y < 0) {
+            //winning msg
+            function winningMsg () {
+                var canvas2 = document.querySelector('#canvas2'); //canvas2 created in engine.js but canvas need to be redefined
+                var  ctx2 = canvas2.getContext('2d');
 
-        ctx2.font = "50px impact";
-        ctx2.stokeStyle = "black";
-        ctx2.textAlign = "center";
-        ctx2.lineWidth = 5;
-        ctx2.fillStyle = "white";
-        ctx2.strokeText("Win!!!",canvas2.width/2,canvas2.height/2);
-        ctx2.fillText("Win!!!",canvas2.width/2,canvas2.height/2);
-        ctx2.font = "20px impact";
-        ctx2.fillStyle = "black";
-        ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60);
-        //reset the player
-        if (keyUp === 'enter') {
-            newGame();
-            player = new Player;
-        }
+                ctx2.font = "50px impact";
+                ctx2.stokeStyle = "black";
+                ctx2.textAlign = "center";
+                ctx2.lineWidth = 5;
+                ctx2.fillStyle = "white";
+                ctx2.strokeText("Win!!!",canvas2.width/2,canvas2.height/2);
+                ctx2.fillText("Win!!!",canvas2.width/2,canvas2.height/2);
+                ctx2.font = "20px impact";
+                ctx2.fillStyle = "black";
+                ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60);
+            }
+            winningMsg();
+            winCount++;
+    }
+    //reset the player
+    if (keyUp === 'enter') {
+        newGame();
+        player = new Player;
     }
 };
 
@@ -221,6 +226,7 @@ function newGame () {
     var  ctx2 = canvas2.getContext('2d');
 
     ctx2.clearRect(0,0,canvas2.width,canvas2.height);
+    winCount = 0;
 }
 
 // This listens for key presses and sends the keys to your
