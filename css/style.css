@@ -1,3 +1,29 @@
 body {
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#canvas2 {
+	position: absolute; 
+	left: 0px; 
+	top:0px; 
+	z-index: 1;
+}
+
+.instruction {
+	width: 40%;
+	height: 606px;
+	position: absolute;
+	left: 50%;
+	top: 200px;
+}
+
+@media screen and (max-width: 1000px) {
+	.instruction {
+		width: 100%;
+		position: absolute;
+		top: 620px;
+		left: 0;
+	}
 }

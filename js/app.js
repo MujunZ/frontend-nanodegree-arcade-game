@@ -92,21 +92,25 @@ Player.prototype.handleInput = function(key) {
             case "right":
                 if (this.x < 350) {
                     this.x += 100;
+                    audioStep.play();
                 }
                 break;
             case "left":
                 if (this.x > 50){
                     this.x -= 100;
+                    audioStep.play();
                 }
                 break;
             case "up":
                 if (this.y > 0){
                     this.y -= 90;
+                    audioStep.play();
                 }
                 break;
             case "down":
                 if (this.y < 400){
                     this.y += 90;
+                    audioStep.play();
                 }
                 break;
             case "enter": //TODO: This is a temporary solution, which let the game reset anytime
@@ -141,6 +145,7 @@ Player.prototype.checkWin = function() {
                 ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60);
             }
             winningMsg();
+            audioWin.play();
             winCount++;
     }
     //reset the player
@@ -180,6 +185,7 @@ function checkCollisions () {
             if (collisionCount === 3) {
                 player = new Player();
                 gameOver();
+                audioGameOver.play();
                 collisionCount = 0;
             }
         }
@@ -251,14 +257,11 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 
-
-
-    // if (allowedKeys[e.keyCode] == 'left'; || 
-    //     allowedKeys[e.keyCode] == 'up';|| 
-    //     allowedKeys[e.keyCode] == 'right';|| 
-    //     allowedKeys[e.keyCode] == 'down';) {
-    //     player.handleInput(allowedKeys[e.keyCode]);
-    // } else if (allowedKeys[e.keyCode] === 'enter' ){
-    //     var keyUp = allowedKeys[e.keyCode];
-    // }
 });
+
+/**
+* sound effect
+*/
+var audioStep = new Audio('sound/step.wav');
+var audioWin = new Audio('sound/win.wav');
+var audioGameOver = new Audio('sound/Game-Over.wav');
