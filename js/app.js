@@ -146,6 +146,7 @@ Player.prototype.checkWin = function() {
             }
             winningMsg();
             audioWin.play();
+            collisionCount = 0;
             winCount++;
     }
     //reset the player
