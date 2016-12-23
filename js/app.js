@@ -16,7 +16,7 @@ GameObject.prototype.render = function() {
 * @constructor
 */
 var Enemy = function() {
-    //Inheriant
+    //inherent
     GameObject.call(this);
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -56,7 +56,7 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 /**
-* @description Enemy render. Comment off because of the following inheriant class
+* @description Enemy render. Comment off because of the following inherent class
 * @constructor
 */
 // Enemy.prototype.render = function() {
@@ -103,7 +103,7 @@ Player.prototype.update = function(dt) {
 };
 
 /**
-* @description Player render. Comment off because of the following inheriant class
+* @description Player render. Comment off because of the following inherent class
 * @constructor
 */
 // Player.prototype.render = function() {
