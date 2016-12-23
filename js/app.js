@@ -1,9 +1,23 @@
+/**
+* @description GameObject is a parent class to store shared functions for Players and Enemies
+* @constructor
+*/
+var GameObject = function() {
+
+}
+
+GameObject.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 // Enemies our player must avoid
 /**
 * @description Enemy picture, location, speed
 * @constructor
 */
 var Enemy = function() {
+    //Inheriant
+    GameObject.call(this);
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -14,6 +28,12 @@ var Enemy = function() {
     this.y = Math.floor(Math.random()*3)*90+50;
     this.speed = Math.floor(Math.random()*3+1)*100; //TODO: need a better algorithm
 };
+
+/**
+* @description Player interiant from GameObject constructor
+*/
+Enemy.prototype = Object.create(GameObject.prototype);
+Enemy.prototype.constructor = Enemy; //Don't forget this.
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -36,12 +56,12 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 /**
-* @description Enemy render
+* @description Enemy render. Comment off because of the following inheriant class
 * @constructor
 */
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+// Enemy.prototype.render = function() {
+//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+// };
 
 //push a new enemy in the Arrey
 /**
@@ -64,22 +84,31 @@ function newEnemy () {
 * @constructor
 */
 var Player = function () {
+    //Inheriant
+    GameObject.call(this);
+
     this.sprite = "images/char-boy.png";
     this.x = 200;
     this.y = 400;
 }
+
+/**
+* @description Player interiant from GameObject constructor
+*/
+Player.prototype = Object.create(GameObject.prototype);
+Player.prototype.constructor = Player; //Don't forget this.s
 
 Player.prototype.update = function(dt) {
     
 };
 
 /**
-* @description Player render
+* @description Player render. Comment off because of the following inheriant class
 * @constructor
 */
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+// Player.prototype.render = function() {
+//     GameObject.call();
+// };
 
 /**
 * @description move the Player
