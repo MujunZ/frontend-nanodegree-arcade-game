@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
 * @description GameObject is a parent class to store shared functions for Players and Enemies
 * @constructor
@@ -14,36 +13,6 @@ var GameObject = function() {
 GameObject.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-||||||| merged common ancestors
-=======
-/**
-* @description GameObject is a parent class to store shared functions for Players and Enemies
-* @constructor
-*/
-var GameObject = function() {
-
-}
-
-GameObject.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
->>>>>>> 896dfc6fa6c6caae99b0064fc3e791860d056ffe
-// Enemies our player must avoid
-/**
-* @description Enemy picture, location, speed
-* @constructor
-*/
-var Enemy = function() {
-<<<<<<< HEAD
-    //inherent
-    GameObject.call(this);
-||||||| merged common ancestors
-=======
-    //Inheriant
-    GameObject.call(this);
->>>>>>> 896dfc6fa6c6caae99b0064fc3e791860d056ffe
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
