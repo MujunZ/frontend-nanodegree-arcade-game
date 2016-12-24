@@ -6,6 +6,10 @@ var GameObject = function() {
 
 }
 
+/**
+* @description GameObject.render contains the shared function of Player and Enemy
+* @constructor
+*/
 GameObject.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
