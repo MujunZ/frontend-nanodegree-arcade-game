@@ -1,3 +1,19 @@
+/**
+* @description GameObject is a parent class to store shared functions for Players and Enemies
+* @constructor
+*/
+var GameObject = function() {
+
+};
+
+/**
+* @description GameObject.render contains the shared function of Player and Enemy
+* @constructor
+*/
+GameObject.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 // Enemies our player must avoid
 /**
 * @description Enemy picture, location, speed
@@ -14,6 +30,12 @@ var Enemy = function() {
     this.y = Math.floor(Math.random()*3)*90+50;
     this.speed = Math.floor(Math.random()*3+1)*100; //TODO: need a better algorithm
 };
+
+/**
+* @description Player interiant from GameObject constructor
+*/
+Enemy.prototype = Object.create(GameObject.prototype);
+Enemy.prototype.constructor = Enemy; //Don't forget this.
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -36,12 +58,18 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 /**
+<<<<<<< HEAD
+* @description Enemy render. Comment off because of the following inherent class
+||||||| merged common ancestors
 * @description Enemy render
+=======
+* @description Enemy render. Comment off because of the following inheriant class
+>>>>>>> 896dfc6fa6c6caae99b0064fc3e791860d056ffe
 * @constructor
 */
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+// Enemy.prototype.render = function() {
+//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+// };
 
 //push a new enemy in the Arrey
 /**
@@ -49,7 +77,7 @@ Enemy.prototype.render = function() {
 * @constructor
 */
 function newEnemy () {
-    var enemy = new Enemy
+    var enemy = new Enemy();
     if (allEnemies.length < 8) {
        allEnemies.push(enemy);
     }
@@ -64,22 +92,31 @@ function newEnemy () {
 * @constructor
 */
 var Player = function () {
+    //Inheriant
+    GameObject.call(this);
+
     this.sprite = "images/char-boy.png";
     this.x = 200;
     this.y = 400;
-}
-
-Player.prototype.update = function(dt) {
-    
 };
 
 /**
-* @description Player render
+* @description Player interiant from GameObject constructor
+*/
+Player.prototype = Object.create(GameObject.prototype);
+Player.prototype.constructor = Player; //Don't forget this.s
+
+Player.prototype.update = function(dt) {
+    this.checkWin();
+};
+
+/**
+* @description Player render. Comment off because of the following inheriant class
 * @constructor
 */
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+// Player.prototype.render = function() {
+//     GameObject.call();
+// };
 
 /**
 * @description move the Player
@@ -115,20 +152,14 @@ Player.prototype.handleInput = function(key) {
                 break;
             case "enter": //TODO: This is a temporary solution, which let the game reset anytime
                 newGame();
+                break;
             default:
                 console.log("no movement");
             }
         }    
 };
 
-/**
-* @description winning msg
-* @constructor
-*/
-var winCount = 0;
-Player.prototype.checkWin = function() {
-    if (winCount <= 1 && this.y < 0) {
-            //winning msg
+//winning msg
             function winningMsg () {
                 var canvas2 = document.querySelector('#canvas2'); //canvas2 created in engine.js but canvas need to be redefined
                 var  ctx2 = canvas2.getContext('2d');
@@ -144,6 +175,14 @@ Player.prototype.checkWin = function() {
                 ctx2.fillStyle = "black";
                 ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60);
             }
+
+/**
+* @description winning msg
+* @constructor
+*/
+var winCount = 0;
+Player.prototype.checkWin = function() {
+    if (winCount <= 1 && this.y < 0) {
             winningMsg();
             audioWin.play();
             collisionCount = 0;
@@ -152,7 +191,7 @@ Player.prototype.checkWin = function() {
     //reset the player
     if (keyUp === 'enter') {
         newGame();
-        player = new Player;
+        player = new Player();
     }
 };
 
@@ -181,8 +220,9 @@ function checkCollisions () {
             collisionCount++;
             console.log(collisionCount);
             if (collisionCount < 3) {
+                audioCollision.play();
                 player = new Player();
-            };
+            }
             if (collisionCount === 3) {
                 player = new Player();
                 gameOver();
@@ -200,8 +240,8 @@ function checkCollisions () {
 * @description Enemy
 * @constructor
 */
-var player = new Player;
-var allEnemies = [new Enemy];
+var player = new Player();
+var allEnemies = [new Enemy()];
 
 /**
 * @description Show Game Over msg
@@ -244,7 +284,7 @@ function newGame () {
 * @param {event}keyup - key up
 * @param {function}function(e) - key board event anonymous function
 */
-var keyUp
+var keyUp;
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -266,3 +306,4 @@ document.addEventListener('keyup', function(e) {
 var audioStep = new Audio('sound/step.wav');
 var audioWin = new Audio('sound/win.wav');
 var audioGameOver = new Audio('sound/Game-Over.wav');
+var audioCollision = new Audio('sound/collision.wav');

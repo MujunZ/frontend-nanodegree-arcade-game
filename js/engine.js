@@ -28,7 +28,7 @@ var Engine = (function(global) {
         canvas.id = "canvas";
         canvas.width = 505;
         canvas.height = 606;
-        canvas.style = "position: absolute; left: 0; top: 0; z-index: 0;"
+        canvas.style = "position: absolute; left: 0; top: 0; z-index: 0;";
         doc.body.appendChild(canvas);
 
         //Create another canvas layer
@@ -93,7 +93,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
-        player.checkWin();
+        // player.checkWin();
     }
 
     /* This is called by the update function and loops through all of the

@@ -12,6 +12,10 @@ Instruction
 
 Press ← ↑ → ↓ on your key board to control the player.
 
+The goal is to cross reach the river.
+
+You have 3 lives. Come on!
+
 Contact
 -------------
 
