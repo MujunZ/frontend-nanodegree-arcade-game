@@ -4,7 +4,7 @@
 */
 var GameObject = function() {
 
-}
+};
 
 /**
 * @description GameObject.render contains the shared function of Player and Enemy
@@ -13,6 +13,13 @@ var GameObject = function() {
 GameObject.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+// Enemies our player must avoid
+/**
+* @description Enemy picture, location, speed
+* @constructor
+*/
+var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -70,7 +77,7 @@ Enemy.prototype.update = function(dt) {
 * @constructor
 */
 function newEnemy () {
-    var enemy = new Enemy
+    var enemy = new Enemy();
     if (allEnemies.length < 8) {
        allEnemies.push(enemy);
     }
@@ -91,7 +98,7 @@ var Player = function () {
     this.sprite = "images/char-boy.png";
     this.x = 200;
     this.y = 400;
-}
+};
 
 /**
 * @description Player interiant from GameObject constructor
@@ -100,17 +107,11 @@ Player.prototype = Object.create(GameObject.prototype);
 Player.prototype.constructor = Player; //Don't forget this.s
 
 Player.prototype.update = function(dt) {
-    
+    this.checkWin();
 };
 
 /**
-<<<<<<< HEAD
-* @description Player render. Comment off because of the following inherent class
-||||||| merged common ancestors
-* @description Player render
-=======
 * @description Player render. Comment off because of the following inheriant class
->>>>>>> 896dfc6fa6c6caae99b0064fc3e791860d056ffe
 * @constructor
 */
 // Player.prototype.render = function() {
@@ -151,20 +152,14 @@ Player.prototype.handleInput = function(key) {
                 break;
             case "enter": //TODO: This is a temporary solution, which let the game reset anytime
                 newGame();
+                break;
             default:
                 console.log("no movement");
             }
         }    
 };
 
-/**
-* @description winning msg
-* @constructor
-*/
-var winCount = 0;
-Player.prototype.checkWin = function() {
-    if (winCount <= 1 && this.y < 0) {
-            //winning msg
+//winning msg
             function winningMsg () {
                 var canvas2 = document.querySelector('#canvas2'); //canvas2 created in engine.js but canvas need to be redefined
                 var  ctx2 = canvas2.getContext('2d');
@@ -180,6 +175,14 @@ Player.prototype.checkWin = function() {
                 ctx2.fillStyle = "black";
                 ctx2.fillText("Press Enter To Continue.",canvas2.width/2,canvas2.height/2 + 60);
             }
+
+/**
+* @description winning msg
+* @constructor
+*/
+var winCount = 0;
+Player.prototype.checkWin = function() {
+    if (winCount <= 1 && this.y < 0) {
             winningMsg();
             audioWin.play();
             collisionCount = 0;
@@ -188,7 +191,7 @@ Player.prototype.checkWin = function() {
     //reset the player
     if (keyUp === 'enter') {
         newGame();
-        player = new Player;
+        player = new Player();
     }
 };
 
@@ -217,8 +220,9 @@ function checkCollisions () {
             collisionCount++;
             console.log(collisionCount);
             if (collisionCount < 3) {
+                audioCollision.play();
                 player = new Player();
-            };
+            }
             if (collisionCount === 3) {
                 player = new Player();
                 gameOver();
@@ -236,8 +240,8 @@ function checkCollisions () {
 * @description Enemy
 * @constructor
 */
-var player = new Player;
-var allEnemies = [new Enemy];
+var player = new Player();
+var allEnemies = [new Enemy()];
 
 /**
 * @description Show Game Over msg
@@ -280,7 +284,7 @@ function newGame () {
 * @param {event}keyup - key up
 * @param {function}function(e) - key board event anonymous function
 */
-var keyUp
+var keyUp;
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -302,3 +306,4 @@ document.addEventListener('keyup', function(e) {
 var audioStep = new Audio('sound/step.wav');
 var audioWin = new Audio('sound/win.wav');
 var audioGameOver = new Audio('sound/Game-Over.wav');
+var audioCollision = new Audio('sound/collision.wav');
